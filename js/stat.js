@@ -1,16 +1,16 @@
 'use strict';
-var cloud_x = 10;
-var cloud_y = 100;
-var cloud_width = 420;
-var cloud_height = 270;
-var gap = 10;
-var gap_between = 50;
-var font_gap = 16;
-var text_width = 40;
-var bar_height = 150;
-var score_y = 100;
-var graphY = score_y - 10;
-var text_position = graphY + bar_height + 20;
+const CLOUD_X = 10;
+const CLOUD_Y = 100;
+const CLOUD_WIDTH = 420;
+const CLOUD_HEIGHT = 270;
+const GAP = 10;
+const GAP_BETWEEN = 50;
+const FONT_GAP = 16;
+const TEXT_WIDTH = 40;
+const BAR_HEIGHT = 150;
+const SCORE_Y = 100;
+const GRAPH_Y = SCORE_Y - 10;
+const TEXT_POSITION = GRAPH_Y + BAR_HEIGHT + 20;
 
 var randomInteger = function(min, max) {
   var rand = min + Math.random() * (max + 1 - min);
@@ -18,31 +18,31 @@ var randomInteger = function(min, max) {
 }
 
 
-var colors = [
-	`hsl(0, 100%, 50%)`,
-	`hsl(240, 100%, ${randomInteger(0, 100)}%)`
-];
+var colors = {
+	you: `hsl(0, 100%, 50%)`,
+	other: `hsl(240, 100%, ${randomInteger(0, 100)}%)`
+};
 
 var renderCloud = function(ctx, x, y, color){
 	ctx.fillStyle = color;
-	ctx.fillRect(y, x, cloud_width, cloud_height);
+	ctx.fillRect(y, x, CLOUD_WIDTH, CLOUD_HEIGHT);
 };	
 var renderStrokeCloud = function(ctx, x, y, color){
 	ctx.strokeStyle = color;
-	ctx.strokeRect(y, x, cloud_width, cloud_height);
+	ctx.strokeRect(y, x, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 var renderScore = function (ctx, positionX, score){
 	ctx.fillStyle = 'black';
-	ctx.fillText(score, positionX, score_y);
+	ctx.fillText(score, positionX, SCORE_Y);
 }
 var renderGraph = function(ctx, positionX, positionY, height, color){
 	ctx.fillStyle = color;
-	ctx.fillRect(positionX, positionY, text_width, height);
+	ctx.fillRect(positionX, positionY, TEXT_WIDTH, height);
 }
 var renderName = function(ctx, positionX, name){
 	ctx.fillStyle = 'black';
 	ctx.font = '16px PT Mono';
-	ctx.fillText(name, positionX, text_position);
+	ctx.fillText(name, positionX, TEXT_POSITION);
 }
 
 var getMaxElement = function(arr){
@@ -56,30 +56,30 @@ var getMaxElement = function(arr){
 };
 
 window.renderStatistics = function(ctx, names, times) {
-	renderCloud(ctx, cloud_x + gap, cloud_y + gap, 'rgba(0, 0, 0, 0.7)');
-	renderStrokeCloud(ctx, cloud_x, cloud_y, 'black');
-	renderCloud(ctx, cloud_x, cloud_y, 'white');
+	renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
+	renderStrokeCloud(ctx, CLOUD_X, CLOUD_Y, 'black');
+	renderCloud(ctx, CLOUD_X, CLOUD_Y, 'white');
 	ctx.fillStyle = 'black';
 	ctx.font = '16px PT Mono';
 	ctx.fillText('Ура вы победили!', 120, 40);
 	ctx.fillText('Список результатов:', 120, 60);
 	
 	var maxTime = getMaxElement(times);
-	var positionX = cloud_y + gap_between;
+	var positionX = CLOUD_Y + GAP_BETWEEN;
 
 	for (var i = 0; i < times.length; i++){
 		var graphHeight = times[i] * 100 / maxTime;
-		var positionY = graphY + (bar_height - graphHeight);
+		var positionY = GRAPH_Y + (BAR_HEIGHT - graphHeight);
 		let color = '';
 		if (names[i] === 'Вы'){
-			color = colors[0];
+			color = colors.you;
 		}else{
-			color = colors[1];
+			color = colors.other;
 		}
 		if (i === 0){
 			positionX += 10;
 		}else{
-			positionX += text_width + gap_between;
+			positionX += TEXT_WIDTH + GAP_BETWEEN;
 		}
 	var score = Math.round(times[i]);
 
