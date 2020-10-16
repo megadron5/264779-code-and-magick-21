@@ -133,4 +133,4 @@ for (let i = 0; i < wizards.length; i++) {
 }
 similarListElement.appendChild(fragment);
 
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
